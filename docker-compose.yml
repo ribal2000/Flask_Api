@@ -1,0 +1,22 @@
+version: '3'
+services:
+  flask-app:
+    build: ./Flask_app
+    ports:
+      - "5000:5000"
+    networks:
+      - my-network
+
+  express-app:
+    build: ./Express_App
+    ports:
+      - "3000:3000"
+    depends_on:
+      - flask-app
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+

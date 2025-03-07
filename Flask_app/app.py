@@ -5,15 +5,15 @@ app = Flask(__name__)
 analyzer = SentimentIntensityAnalyzer()
 
 @app.route('/predict', methods=['POST'])
-def predict():
+def predict_sentiment():
     data = request.get_json()
-    text = data.get("text", "")
 
-    if not text:
+    if not data or "text" not in data:
         return jsonify({"error": "Text input is required"}), 400
 
+    text = data["text"]
     sentiment_score = analyzer.polarity_scores(text)["compound"]
-    
+
     if sentiment_score >= 0.05:
         sentiment = "positive"
     elif sentiment_score <= -0.05:
